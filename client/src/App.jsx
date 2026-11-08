@@ -5,6 +5,7 @@ import AddScreen from './screens/AddScreen.jsx';
 import AccountScreen from './screens/AccountScreen.jsx';
 import AuthScreen from './screens/AuthScreen.jsx';
 import { CloudIcon, PhoneIcon } from './components/Icons.jsx';
+import { Splash } from './components/Loader.jsx';
 import { useApp } from './store.jsx';
 
 function startTab() {
@@ -42,8 +43,40 @@ function UploadPrompt() {
   );
 }
 
+const SPLASH_KEY = 'slotline.splash';
+const splashSeen = () => {
+  try {
+    return sessionStorage.getItem(SPLASH_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+
+/** Shows the splash once per visit, then fades it out. */
+function useSplash() {
+  const [phase, setPhase] = useState(() => (splashSeen() ? 'gone' : 'show'));
+  useEffect(() => {
+    if (phase === 'gone') return undefined;
+    const leave = setTimeout(() => setPhase('leave'), 1500);
+    const done = setTimeout(() => {
+      setPhase('gone');
+      try {
+        sessionStorage.setItem(SPLASH_KEY, '1');
+      } catch {
+        /* private mode */
+      }
+    }, 1900);
+    return () => {
+      clearTimeout(leave);
+      clearTimeout(done);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  return phase === 'gone' ? null : <Splash leaving={phase === 'leave'} />;
+}
+
 export default function App() {
   const { mode, sync } = useApp();
+  const splash = useSplash();
   const [tab, setTab] = useState(startTab);
   const [editing, setEditing] = useState(null);
   const [auth, setAuth] = useState(null); // null | 'login' | 'register' while signing in from the Account tab
@@ -58,6 +91,7 @@ export default function App() {
       <div className="app">
         <main className="screen"><AuthScreen welcome /></main>
         <Toast />
+        {splash}
       </div>
     );
   }
@@ -104,6 +138,7 @@ export default function App() {
       <BottomNav tab={tab} onTab={go} editing={!!editing} />
       <UploadPrompt />
       <Toast />
+      {splash}
     </div>
   );
 }

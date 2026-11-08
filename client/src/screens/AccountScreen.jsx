@@ -1,6 +1,7 @@
 import { CloudIcon, PhoneIcon } from '../components/Icons.jsx';
 import { useApp } from '../store.jsx';
 import { useInstall } from '../hooks.js';
+import { VERSION } from '../lib/version.js';
 
 export default function AccountScreen({ onSignIn }) {
   const { mode, user, items, sync, logout, refresh, say } = useApp();
@@ -67,7 +68,7 @@ export default function AccountScreen({ onSignIn }) {
         ) : (
           <p className="muted">To install, use your browser menu and choose Add to Home Screen.</p>
         )}
-        <p className="about"><img src="/icons/icon.svg" alt="" width="22" height="22" /> Slotline 1.0</p>
+        <p className="about"><img src="/icons/icon.svg" alt="" width="22" height="22" /> Slotline {VERSION}</p>
       </section>
     </div>
   );

@@ -5,7 +5,7 @@ Plan a start time for every mail and its projects. A MERN stack progressive web 
 - **Mobile layout** with a bottom menu: Mails, Add, Account.
 - **Two ways to save.** Sign in to save to the cloud (MongoDB). Or skip sign in and keep the list on the device.
 - **Installable and offline.** Add it to the home screen. The app opens without a connection.
-- **Same features as the original page:** live countdown with seconds, colour by time left, a throbbing green "Active" state, projects that switch between active and inactive, notes, a clock face time picker (10 minute steps), and sorting and filtering.
+- **Same features as the original page:** live countdown with seconds, colour by time left, a throbbing green "Active" state, projects that switch between active and inactive, notes, a clock face time picker (10 minute steps), and sorting.
 
 ## Stack
 
@@ -109,6 +109,20 @@ slotline/
 ## App name and icons
 
 The app is called **Slotline**. Icons are in `client/public/icons`: a clock with a green "active" dot on a navy square. `icon.svg` and `icon-maskable.svg` are the sources. The 192, 512, maskable and Apple touch PNGs were rendered from them. If you change the artwork, re-export the PNGs at the same sizes.
+
+## Versions
+
+Slotline uses major.minor.patch versions. The root `package.json` holds the version. One command updates it everywhere.
+
+| Command | Use it for | Example |
+| --- | --- | --- |
+| `npm run version:patch` | bug fixes and small tweaks | 1.0.1 to 1.0.2 |
+| `npm run version:minor` | new features that keep everything else working | 1.0.2 to 1.1.0 |
+| `npm run version:major` | changes that break something that worked before | 1.1.0 to 2.0.0 |
+| `npm run version:show` | print the current version | |
+| `node scripts/bump.mjs 2.3.4` | set an exact version | |
+
+A bump changes `package.json` in the root, `client` and `server`, the service worker cache name (so installed apps fetch the new files), and adds a section to `CHANGELOG.md` for you to fill in. The version appears on the Account tab and at `GET /api/health`.
 
 ## Good next steps
 

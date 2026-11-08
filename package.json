@@ -1,13 +1,17 @@
 {
   "name": "slotline",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "private": true,
   "description": "Slotline: plan a start time for every mail and its projects. MERN stack PWA.",
   "scripts": {
     "install:all": "npm install && npm install --prefix server && npm install --prefix client",
     "dev": "concurrently -n api,web -c blue,green \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "build": "npm run build --prefix client",
-    "start": "npm run start --prefix server"
+    "start": "npm run start --prefix server",
+    "version:show": "node scripts/bump.mjs show",
+    "version:patch": "node scripts/bump.mjs patch",
+    "version:minor": "node scripts/bump.mjs minor",
+    "version:major": "node scripts/bump.mjs major"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"

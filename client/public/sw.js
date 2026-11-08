@@ -2,7 +2,7 @@
    - App files are cached so the app opens offline.
    - Pages load from the network first so updates arrive, with the cached copy as the offline fallback.
    - API calls are never cached here; the app keeps its own copy of your list. */
-const CACHE = 'slotline-v1';
+const CACHE = 'slotline-v1.1.1';
 const SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (event) => {

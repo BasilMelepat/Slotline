@@ -26,7 +26,9 @@ app.use(express.json({ limit: '1mb' }));
 const origins = CLIENT_ORIGIN.split(',').map((s) => s.trim()).filter(Boolean);
 if (origins.length) app.use('/api', cors({ origin: origins }));
 
-app.get('/api/health', (_req, res) => res.json({ ok: true }));
+const { version } = JSON.parse(fs.readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+
+app.get('/api/health', (_req, res) => res.json({ ok: true, version }));
 app.use('/api/auth', authRoutes);
 app.use('/api/mails', mailRoutes);
 app.use('/api', (_req, res) => res.status(404).json({ error: 'Not found.' }));
