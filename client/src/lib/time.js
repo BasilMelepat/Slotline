@@ -57,9 +57,13 @@ export function sortItems(items, key) {
   return out;
 }
 
+// Project pill colours: reds, oranges, blues, purples and pinks. No greens, so a pill never
+// looks like the green "active" signal on a card.
+const PILL_HUES = [4, 22, 38, 195, 210, 225, 245, 265, 285, 305, 325, 345];
+
 /** Stable colour for a project name. */
 export function hue(name) {
   let h = 0;
-  for (const c of name.toLowerCase()) h = (h * 31 + c.charCodeAt(0)) % 360;
-  return h;
+  for (const c of name.toLowerCase()) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  return PILL_HUES[h % PILL_HUES.length];
 }
