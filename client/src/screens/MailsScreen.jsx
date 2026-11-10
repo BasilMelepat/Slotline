@@ -34,16 +34,18 @@ export default function MailsScreen({ onEdit, onAdd }) {
 
   return (
     <>
-      <div className="seg" role="group" aria-label="Order by">
-        {SORTS.map(([id, label]) => (
-          <button key={id} type="button" className={sort === id ? 'on' : ''} aria-pressed={sort === id} onClick={() => setSort(id)}>
-            {label}
-          </button>
-        ))}
+      <div className="toolbar">
+        <div className="seg" role="group" aria-label="Order by">
+          {SORTS.map(([id, label]) => (
+            <button key={id} type="button" className={sort === id ? 'on' : ''} aria-pressed={sort === id} onClick={() => setSort(id)}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="summary">
+          {items.length} mail{items.length > 1 ? 's' : ''} · {totalActive} active project{totalActive === 1 ? '' : 's'}
+        </p>
       </div>
-      <p className="summary">
-        {items.length} mail{items.length > 1 ? 's' : ''} · {totalActive} active project{totalActive === 1 ? '' : 's'}
-      </p>
       <ul className="list">
         {shown.map((it) => (
           <MailCard key={it.id} item={it} now={now} onEdit={onEdit} onToggle={toggleProject} onDelete={deleteMail} />

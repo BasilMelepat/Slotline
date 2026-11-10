@@ -18,6 +18,8 @@ const mailSchema = new mongoose.Schema(
     // Epoch milliseconds the countdown ends at
     at: { type: Number, default: 0 },
     activeNow: { type: Boolean, default: false },
+    // Epoch milliseconds when "Active now" was saved, 0 otherwise
+    activeSince: { type: Number, default: 0 },
     note: { type: String, trim: true, maxlength: 500, default: '' },
     projects: { type: [projectSchema], default: [] },
   },

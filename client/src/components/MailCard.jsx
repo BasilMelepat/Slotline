@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import ProjectChip from './ProjectChip.jsx';
-import { activeCount, fmt12, status } from '../lib/time.js';
+import { activeCount, elapsed, fmt12, fmtClock, status } from '../lib/time.js';
 
 export default function MailCard({ item, now, onEdit, onToggle, onDelete }) {
   const s = status(item, now);
@@ -38,6 +38,9 @@ export default function MailCard({ item, now, onEdit, onToggle, onDelete }) {
     >
       <div className="card-top">
         <span className="cd">{s.text}</span>
+        {s.since > 0 && (
+          <span className="since">since {fmtClock(s.since)} · {elapsed(now - s.since)}</span>
+        )}
         {showTime && <span className="time">{fmt12(item.start)}</span>}
         <button type="button" className={`del${armed ? ' armed' : ''}`} onClick={del} aria-label={`Delete ${item.mail}`}>
           {armed ? 'Sure?' : '❌'}

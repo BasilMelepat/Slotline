@@ -88,7 +88,7 @@ export default function App() {
 
   if (mode === null) {
     return (
-      <div className="app">
+      <div className="app bare">
         <main className="screen"><AuthScreen welcome /></main>
         <Toast />
         {splash}
@@ -112,6 +112,10 @@ export default function App() {
 
   return (
     <div className="app">
+      <div className="brand" aria-hidden="true">
+        <img src="/icons/icon.svg" alt="" width="32" height="32" />
+        <span>Slotline</span>
+      </div>
       <header className="topbar">
         <img src="/icons/icon.svg" alt="" width="28" height="28" />
         <div className="titles">

@@ -6,6 +6,13 @@ Versions follow major.minor.patch:
 - **minor**: a new feature that keeps everything else working
 - **patch**: a bug fix or small tweak
 
+## 1.2.0 - 2026-11-10
+
+- Added: desktop layout for screens 960px and wider. Sidebar menu, card grid, two-column Add form and side-by-side Account panels. Tablets get two columns of cards.
+- Added: active cards show "since <date, time> · <elapsed>". Mails set to Active now store the time they were saved (new `activeSince` field).
+- Changed: font is now Google Sans Flex, with Google Sans Code for mail ids and countdowns. The service worker caches the font files for offline use.
+- Changed: project pills no longer use green.
+
 ## 1.1.1 - 2026-11-08
 
 - Removed: the filter dropdown on the Mails tab. Sorting by Active, Start time or Mail id stays.

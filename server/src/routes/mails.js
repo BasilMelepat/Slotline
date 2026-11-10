@@ -38,6 +38,7 @@ function clean(body) {
       start,
       at,
       activeNow,
+      activeSince: activeNow ? Number(body.activeSince) || Date.now() : 0,
       note: String(body.note ?? '').trim().slice(0, 500),
       projects,
     },

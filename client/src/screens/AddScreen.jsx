@@ -45,6 +45,7 @@ export default function AddScreen({ item, onDone, onCancel }) {
       mail: id,
       start: activeNow ? '' : start,
       activeNow,
+      activeSince: activeNow ? (item?.activeNow && item.activeSince) || Date.now() : 0,
       at: activeNow ? 0 : item && item.start === start && item.at ? item.at : nextAt(start),
       note: note.trim(),
       projects: list,

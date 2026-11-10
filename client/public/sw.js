@@ -1,8 +1,9 @@
 /* Slotline service worker.
    - App files are cached so the app opens offline.
    - Pages load from the network first so updates arrive, with the cached copy as the offline fallback.
+   - Google Fonts files are cached the first time they load.
    - API calls are never cached here; the app keeps its own copy of your list. */
-const CACHE = 'slotline-v1.1.1';
+const CACHE = 'slotline-v1.2.0';
 const SHELL = ['/', '/manifest.webmanifest', '/favicon.svg', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 self.addEventListener('install', (event) => {
@@ -21,6 +22,26 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+
+  // Google Fonts: keep the font on the device so the app looks the same offline
+  if (url.hostname === 'fonts.googleapis.com' || url.hostname === 'fonts.gstatic.com') {
+    event.respondWith(
+      caches.match(req).then((hit) => {
+        const net = fetch(req)
+          .then((res) => {
+            if (res.ok || res.type === 'opaque') {
+              const copy = res.clone();
+              caches.open(CACHE).then((c) => c.put(req, copy));
+            }
+            return res;
+          })
+          .catch(() => hit);
+        return hit || net;
+      })
+    );
+    return;
+  }
+
   if (url.origin !== self.location.origin || url.pathname.startsWith('/api')) return;
 
   if (req.mode === 'navigate') {

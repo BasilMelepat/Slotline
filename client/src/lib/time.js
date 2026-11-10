@@ -16,6 +16,23 @@ export function nextAt(start) {
   return d.getTime();
 }
 
+/** "10 Nov, 3:30 PM" - always with the date. */
+export function fmtClock(ms) {
+  const d = new Date(ms);
+  const t = `${d.getHours() % 12 || 12}:${pad(d.getMinutes())} ${d.getHours() >= 12 ? 'PM' : 'AM'}`;
+  return `${d.getDate()} ${d.toLocaleDateString('en-US', { month: 'short' })}, ${t}`;
+}
+
+/** "just now", "25m", "2h 05m", "1d 3h" */
+export function elapsed(ms) {
+  const m = Math.floor(Math.max(0, ms) / 60000);
+  if (m < 1) return 'just now';
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}h ${pad(m % 60)}m`;
+  return `${Math.floor(h / 24)}d ${h % 24}h`;
+}
+
 /**
  * Where a mail stands right now.
  * phase: later (over 1 hour), soon (within 1 hour), near (within 15 minutes), active
@@ -41,7 +58,9 @@ export function status(item, now) {
     }
   }
   const idle = phase === 'active' && !item.projects.some((p) => p.active);
-  return { text, phase, tone: idle ? 'idle' : phase };
+  // When it became active: the end of the countdown, or the moment "Active now" was saved
+  const since = phase !== 'active' ? 0 : item.activeNow ? item.activeSince || 0 : item.at;
+  return { text, phase, tone: idle ? 'idle' : phase, since };
 }
 
 export const activeCount = (item) => item.projects.filter((p) => p.active).length;
